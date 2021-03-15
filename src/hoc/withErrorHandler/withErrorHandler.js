@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Auxx from '../../hoc/Auxx';
 import Modal from '../../Components/UI/Modal/Modal';
 
-const withErrorHandler = (wrappedComponent, axios) => {
+const withErrorHandler = (WrappedComponent, axios) => {
     return class extends Component {
 
         state = {
@@ -13,9 +13,10 @@ const withErrorHandler = (wrappedComponent, axios) => {
 
             axios.interceptors.request.use(req => {
                 this.setState({ error: null });
+                return req;
             });
 
-            axios.interceptors.response.use(null, error => {
+            axios.interceptors.response.use(res => res, error => {
                 this.setState({ error: error });
             });
         }
@@ -25,10 +26,10 @@ const withErrorHandler = (wrappedComponent, axios) => {
         render() {
             return (
                 <Auxx>
-                    <Modal show={this.state.error} clicked={this.errorConfirmedHandler}>
+                    <Modal show={this.state.error} modalClosed={this.errorConfirmedHandler}>
                         {this.state.error ? this.state.error.message : null}
                     </Modal>
-                    <wrappedComponent {...this.props} />
+                    <WrappedComponent {...this.props} />
                 </Auxx>)
         }
     }

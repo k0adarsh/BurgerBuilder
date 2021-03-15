@@ -47,7 +47,7 @@ class BurgerBuilder extends Component {
                 Phone: 'XXXXXX808'
             }
         }
-        axios.post('/orders.json', order)
+        axios.post('/orders', order)
             .then(res => this.setState({ loading: false, purchasing: false }))
             .catch(err => this.setState({ loading: false, purchasing: false }));
     }
@@ -124,5 +124,5 @@ class BurgerBuilder extends Component {
         );
     }
 }
-export default withErrorHandler(BurgerBuilder);
+export default withErrorHandler(BurgerBuilder, axios);
 
